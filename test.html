@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>POI Recommendation</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="css\bootstrap.min.css" rel="stylesheet" media="screen">
+    <style>
+        html,body{
+            margin:0px;
+            height:100%;
+        }
+        body { padding-top: 52px; }
+        .container-fluid,#googleMap{
+            height: 100%;
+            padding: 0px;
+        }
+        [class*="col-"]{
+            padding: 0px;
+        }
+
+        .map-container{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 0;
+        }
+
+        .overlayer{
+            position: relative;
+            top: 8.5px;
+            left: 150px;
+        }
+
+        .recommended-item{
+            border-width: 0;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="padding-left: 50px">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">POI Recommendation</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" data-toggle="modal" data-target="#myModal1">Help</a></li>
+                <li><a href="#" data-toggle="modal" data-target="#myModal2">About us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel1">Help</h4>
+                </div>
+                <div class="modal-body">
+                    This is a short instruction of how to use this POI recommendation demo.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">About us</h4>
+                </div>
+                <div class="modal-body">
+                    I am very handsome.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="col-md-3">
+            <div class="panel panel-default" style="border-width: 0">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>User Profile</strong>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    这里的内容可以使用nav-pills nav-stacked来垂直展示 <br>
+                    如果需要展示图片的话可以使用列表+媒体对象div class="media"来展示 <br>
+                    其实列表组（list-group）才是最好的选择
+                </div>
+            </div>
+
+            <div class="panel panel-default" style="border-width: 0">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <strong>User Subscription</strong>
+                    </h3>
+                </div>
+                <div class="panel-body" style="padding: 0">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">List group item heading</h4>
+                            <p class="list-group-item-text">some commentssome commentssome commentssome commentssome commentssome commentssome commentssome commentssome comments</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">List group item heading</h4>
+                            <p class="list-group-item-text">some commentssome commentssome commentssome commentssome commentssome commentssome commentssome commentssome comments</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">List group item heading</h4>
+                            <p class="list-group-item-text">some commentssome commentssome commentssome commentssome commentssome commentssome commentssome commentssome comments</p>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">List group item heading</h4>
+                            <p class="list-group-item-text">some commentssome commentssome commentssome commentssome commentssome commentssome commentssome commentssome comments</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" style="height: 100%">
+            <div class="map-container" id="googleMap"></div>
+            <div class="row" style="margin: 0">
+                <div class="col-md-3 overlayer">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        var markers = [];
+        var map;
+        var Singapore = {lat: 1.3264129, lng: 103.8077371}
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('googleMap'), {
+                center: Singapore,
+                zoom: 12
+            });
+        }
+
+        function drop(coos) {
+            clearMarkers();
+            for (var i = 0; i < coos.length; i++) {
+                addMarkerWithTimeout(coos[i], i * 200);
+            }
+        }
+
+        function addMarkerWithTimeout(position, timeout) {
+            window.setTimeout(function() {
+                markers.push(new google.maps.Marker({
+                    position: position,
+                    map: map,
+                    animation: google.maps.Animation.DROP
+                }));
+            }, timeout);
+        }
+
+        function clearMarkers() {
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setMap(null);
+            }
+            markers = [];
+        }
+
+        function dropMarker() {
+            $(function () {
+                $.getJSON('data/markerCoo.json', function (data) {
+                    drop(data)
+                });
+            });
+        }
+        dropMarker();
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&callback=initMap">
+    </script>
+</body>
+</html>
