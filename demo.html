@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap -->
     <link href="css\bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css\searchbox.css" rel="stylesheet">
     <style>
         html,body{
             margin:0px;
@@ -37,7 +38,6 @@
         .recommended-item{
             border-width: 0;
         }
-
     </style>
 </head>
 <body>
@@ -150,7 +150,7 @@
             <div class="row" style="margin: 0">
                 <div class="col-md-3 overlayer">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for...">
+                        <input id="pac-input" type="text" class="form-control" placeholder="Search for...">
                         <span class="input-group-btn">
                         <button class="btn btn-default" type="button">Go!</button>
                         </span>
@@ -162,52 +162,11 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-        var markers = [];
-        var map;
-        var Singapore = {lat: 1.3264129, lng: 103.8077371}
-        function initMap() {
-            map = new google.maps.Map(document.getElementById('googleMap'), {
-                center: Singapore,
-                zoom: 12
-            });
-        }
-
-        function drop(coos) {
-            clearMarkers();
-            for (var i = 0; i < coos.length; i++) {
-                addMarkerWithTimeout(coos[i], i * 200);
-            }
-        }
-
-        function addMarkerWithTimeout(position, timeout) {
-            window.setTimeout(function() {
-                markers.push(new google.maps.Marker({
-                    position: position,
-                    map: map,
-                    animation: google.maps.Animation.DROP
-                }));
-            }, timeout);
-        }
-
-        function clearMarkers() {
-            for (var i = 0; i < markers.length; i++) {
-                markers[i].setMap(null);
-            }
-            markers = [];
-        }
-
-        function dropMarker() {
-            $(function () {
-                $.getJSON('data/markerCoo.json', function (data) {
-                    drop(data)
-                });
-            });
-        }
-        dropMarker();
-    </script>
+    <script src="js/map.js"></script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&callback=initMap">
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&libraries=places&callback=initAutocomplete"
+         async defer></script>
 </body>
 </html>
