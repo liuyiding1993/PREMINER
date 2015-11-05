@@ -3,12 +3,28 @@ var map;
 var Singapore = {lat: 1.3264129, lng: 103.8077371}
 function initMap() {
     map = new google.maps.Map(document.getElementById('googleMap'), {
-    center: Singapore,
-    zoom: 12
+        center: Singapore,
+        zoom: 12
     });
+
+    function drawRectangle(bounds){
+        var rectangle = new google.maps.Rectangle({
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillOpacity: 0.35,
+            fillColor: '#FF0000',
+            map: map,
+            bounds: bounds
+        });
+        return rectangle;
+    }
+
+    function diversifyRegion(category, region){};
+    function aspectInRegion(category, rectangle){};
 }
 
-// Create a search box and link it to the UI element.
+/* Create a search box and link it to the UI element.
 var input = document.getElementById('pac-input');
 var searchBox = new google.maps.places.SearchBox(input);
 map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -20,13 +36,11 @@ map.addListener('bounds_changed', function() {
 
 // Listen for the event fired when the user selects a prediction and retrieve
 // more details for that place.
-/*searchBox.addListener('places_changed', function() {
+searchBox.addListener('places_changed', function() {
 var places = searchBox.getPlaces();
-
 if (places.length == 0) {
     return;
 }
-
 // For each place, get the icon, name and location.
 var bounds = new google.maps.LatLngBounds();
 places.forEach(function(place) {
@@ -40,7 +54,7 @@ places.forEach(function(place) {
 
 
     // Create a marker for each place.
-function addMarkerWithTimeout(position, timeout) {
+/*function addMarkerWithTimeout(position, timeout) {
     window.setTimeout(function() {
         markers.push(new google.maps.Marker({
         position: position,
@@ -72,4 +86,4 @@ function dropMarker() {
         });
     });
 }
-dropMarker();
+dropMarker();*/
