@@ -7,6 +7,40 @@ function initMap() {
         zoom: 12
     });
 
+    function createRectangle(){
+        google.maps.event.addListener(map,'bounds_changed', function(){
+        //var location = new google.maps.LatLngBounds();
+            var location = map.getBounds();
+
+            var northLocation = location.getNorthEast().lat();
+            var eastLocation = location.getNorthEast().lng();
+
+            var southLocation = location.getSouthWest().lat();
+            var westLocation = location.getSouthWest().lng();
+
+            var bound = {
+                north: northLocation,
+                south: southLocation,
+                east: eastLocation,
+                west: westLocation
+            };
+
+            var rectangle = new google.maps.Rectangle({
+                bounds: bound,
+                editable: true
+            });
+
+            rectangle.setMap(map);
+        });
+    }
+
+    createRectangle();
+}
+
+    /*var category = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
     function drawRectangle(bounds){
         var rectangle = new google.maps.Rectangle({
             strokeColor: '#FF0000',
@@ -20,9 +54,11 @@ function initMap() {
         return rectangle;
     }
 
-    function diversifyRegion(category, region){};
-    function aspectInRegion(category, rectangle){};
-}
+    function diversifyRegion(category, bounds){};
+    function aspectInRegion(category, rectangle){
+
+    };*/
+
 
 /* Create a search box and link it to the UI element.
 var input = document.getElementById('pac-input');
