@@ -1,12 +1,103 @@
-var map = document.getElementById("googleMap");
-var data = document.getElementById("pac-input");
+var map = document.getElementById('googleMap');
+var wordList = document.getElementById('pac-input');
 var rectangle;
+var url;
+var result;
+var regionSize = 100;
+var
+//var success = false;
+//var jqXHR;
 
+// jQuery code for Go button
 $(document).ready(function(){
     $("#button").click(function(){
-        diversifyRegion(data, bounds);
+        diversifyRegion();
     });
 });
+
+// send GET request method
+function sendGET(url){
+    $.getJSON(url, function (data) {
+        return data;
+    });
+}
+
+// draw a rectangle give the bounds
+function drawRectangle(bounds){
+    rectangle = new google.maps.Rectangle({
+        strokeColor: '#FF0000',
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        bounds: bounds
+    });
+}
+
+// Diversified Region Query
+function diversifyRegion(){
+    url = 'http://155.69.149.161:8002/region?keyword='+wordList+'&size='+regionSize;
+    result = sendGET(url);
+    setTimeout(function(){
+        drop(result);
+        var region = JSON.parse(result);
+        var bounds = {
+            north: region.northeast.lat,
+            south: region.southwest.lat,
+            east: region.northeast.lon,
+            west: region.southwest.lon
+        };
+        drawRectangle(bounds);
+    },5000);
+}
+
+// Aspect in region query
+function aspectInRegion(){
+    url = 'http://155.69.149.161:8080/behavior/baspect?sw='+bounds.south,bounds.west+'&ne='
+    +bounds.north,bounds.east+'&category=CATEGORYID';
+    result = sendGET(url);
+    setTimeout(function(){
+        var apspect = JSON.parse(aspect);
+        var posAspect = classifyAspect(aspect.aspects_pos);
+        var negAspect = classifyAspect(aspect.aspects_neg);
+        var info = new google.maps.InfoWindow({
+            content: 'Positve aspects:                Negative aspects:\n'+
+            '1. '+posAspect[0]+'                       1. '+negAspect[0]+
+            '2. '+posAspect[1]+'                       1. '+negAspect[1]+
+            '3. '+posAspect[2]+'                       1. '+negAspect[2]+
+        });
+        rectangle.addListener('click', function(){
+            info.open(map,rectangle);
+        });
+    },5000);
+}
+
+// Return the top 3 highest score in an aspect.
+function classifyAspect(aspect){
+    var array = new Array();
+    var resultArray = new Array();
+    var size = aspect.count;
+    for(var i = 0;i<size;i++){
+        var score = aspect.list[i].apsect_score;
+        if(i>2){
+            array.sort();
+            if(score > array[0]){
+                array[0] = score;
+            }
+        }else{
+            array.push(score);
+        }
+    }
+    array.sort();
+    for(var i = size - 1;i>=0;i--){
+        var name = aspect.list[i].apsect_name;
+        var score = aspect_list[i].apsect_score;
+        if(array[i] === score){
+            resultArray.push(name);
+        }
+    }
+    return resultArray;
+}
+
 // Create a marker for each place.
 function addMarkerWithTimeout(position, timeout) {
     window.setTimeout(function() {
@@ -17,7 +108,6 @@ function addMarkerWithTimeout(position, timeout) {
         }));
     }, timeout);
 }
-
 // Clear out the old markers.
 function clearMarkers() {
     for (var i = 0; i < markers.length; i++) {
@@ -33,163 +123,19 @@ function drop(coos) {
     }
 }
 
-function dropMarker() {
+/*function dropMarker(url) {
     $(function () {
-        $.getJSON('data/markerCoo.json', function (data) {
+        $.getJSON(url, function (data) {
+            success = true;
             drop(data);
+            result = data;
         });
+        /*.fail(function(jqXHR) {
+            if (jqXHR.status == 404) {
+                alert("404 Not Found");
+            } else {
+                alert(jqXHR.status);
+            }
+        });*/
     });
 }
-
-var bounds = {
-      north: 1.3364129,
-      south: 1.3164129,
-      east: 103.8177371,
-      west: 103.7977371
-};
-
-function diversifyRegion(data, bounds){
-    rectangle = new google.maps.Rectangle({
-        strokeColor: '#FF0000',
-        strokeWeight: 2,
-        fillOpacity: 0,
-        map: map,
-        bounds: bounds
-    });
-    dropMarker();
-}
-
-var info = new google.maps.InfoWindow({
-    content: "Something special";
-});
-
-function aspectInRegion(data, rectangle){
-    rectangle.addListener('click', function(){
-        info.open(map,rectangle);
-    });
-}
-
-/*var markers = [];
-var map;
-var Singapore = {lat: 1.3264129, lng: 103.8077371}
-function initMap() {
-    map = new google.maps.Map(document.getElementById('googleMap'), {
-        center: Singapore,
-        zoom: 12
-    });
-
-    function createRectangle(){
-        google.maps.event.addListener(map,'bounds_changed', function(){
-        //var location = new google.maps.LatLngBounds();
-            var location = map.getBounds();
-
-            var northLocation = location.getNorthEast().lat();
-            var eastLocation = location.getNorthEast().lng();
-
-            var southLocation = location.getSouthWest().lat();
-            var westLocation = location.getSouthWest().lng();
-
-            var bound = {
-                north: northLocation,
-                south: southLocation,
-                east: eastLocation,
-                west: westLocation
-            };
-
-            var rectangle = new google.maps.Rectangle({
-                bounds: bound,
-                editable: true
-            });
-
-            rectangle.setMap(map);
-        });
-    }
-
-    createRectangle();
-}
-
-    /*var category = document.getElementById('pac-input');
-    var searchBox = new google.maps.places.SearchBox(input);
-    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-    function drawRectangle(bounds){
-        var rectangle = new google.maps.Rectangle({
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillOpacity: 0.35,
-            fillColor: '#FF0000',
-            map: map,
-            bounds: bounds
-        });
-        return rectangle;
-    }
-
-    function diversifyRegion(category, bounds){};
-    function aspectInRegion(category, rectangle){
-
-    };*/
-
-
-/* Create a search box and link it to the UI element.
-var input = document.getElementById('pac-input');
-var searchBox = new google.maps.places.SearchBox(input);
-// Bias the SearchBox results towards current map's viewport.
-map.addListener('bounds_changed', function() {
-    searchBox.setBounds(map.getBounds());
-});
-
-// Listen for the event fired when the user selects a prediction and retrieve
-// more details for that place.
-searchBox.addListener('places_changed', function() {
-var places = searchBox.getPlaces();
-if (places.length == 0) {
-    return;
-}
-// For each place, get the icon, name and location.
-var bounds = new google.maps.LatLngBounds();
-places.forEach(function(place) {
-    var icon = {
-    url: place.icon,
-    size: new google.maps.Size(71, 71),
-    origin: new google.maps.Point(0, 0),
-    anchor: new google.maps.Point(17, 34),
-    scaledSize: new google.maps.Size(25, 25)
-};*/
-
-
-    // Create a marker for each place.
-/*function addMarkerWithTimeout(position, timeout) {
-    window.setTimeout(function() {
-        markers.push(new google.maps.Marker({
-        position: position,
-        map: map,
-        animation: google.maps.Animation.DROP
-        }));
-    }, timeout);
-}
-
-// Clear out the old markers.
-function clearMarkers() {
-    for (var i = 0; i < markers.length; i++) {
-        markers[i].setMap(null);
-    }
-    markers = [];
-}
-
-function drop(coos) {
-    clearMarkers();
-    for (var i = 0; i < coos.length; i++) {
-        addMarkerWithTimeout(coos[i], i * 200);
-    }
-}
-
-function dropMarker() {
-    $(function () {
-        $.getJSON('data/markerCoo.json', function (data) {
-            drop(data)
-        });
-    });
-}
-dropMarker();*/map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
