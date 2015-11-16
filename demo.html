@@ -163,10 +163,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/map.js"></script>
+    <script>
+    var markers = [];
+    var map;
+    var Singapore = {lat: 1.3264129, lng: 103.8077371}
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('googleMap'), {
+            center: Singapore,
+            zoom: 12
+        });
+    }
+    </script>
     <script async defer
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&callback=initMap">
     </script>
-    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&libraries=places&callback=initAutocomplete"
-         async defer></script-->
 </body>
 </html>

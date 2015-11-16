@@ -1,4 +1,75 @@
-var markers = [];
+var map = document.getElementById("googleMap");
+var data = document.getElementById("pac-input");
+var rectangle;
+
+$(document).ready(function(){
+    $("#button").click(function(){
+        diversifyRegion(data, bounds);
+    });
+});
+// Create a marker for each place.
+function addMarkerWithTimeout(position, timeout) {
+    window.setTimeout(function() {
+        markers.push(new google.maps.Marker({
+            position: position,
+            map: map,
+            animation: google.maps.Animation.DROP
+        }));
+    }, timeout);
+}
+
+// Clear out the old markers.
+function clearMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+    }
+    markers = [];
+}
+
+function drop(coos) {
+    clearMarkers();
+    for (var i = 0; i < coos.length; i++) {
+        addMarkerWithTimeout(coos[i], i * 200);
+    }
+}
+
+function dropMarker() {
+    $(function () {
+        $.getJSON('data/markerCoo.json', function (data) {
+            drop(data);
+        });
+    });
+}
+
+var bounds = {
+      north: 1.3364129,
+      south: 1.3164129,
+      east: 103.8177371,
+      west: 103.7977371
+};
+
+function diversifyRegion(data, bounds){
+    rectangle = new google.maps.Rectangle({
+        strokeColor: '#FF0000',
+        strokeWeight: 2,
+        fillOpacity: 0,
+        map: map,
+        bounds: bounds
+    });
+    dropMarker();
+}
+
+var info = new google.maps.InfoWindow({
+    content: "Something special";
+});
+
+function aspectInRegion(data, rectangle){
+    rectangle.addListener('click', function(){
+        info.open(map,rectangle);
+    });
+}
+
+/*var markers = [];
 var map;
 var Singapore = {lat: 1.3264129, lng: 103.8077371}
 function initMap() {
@@ -63,8 +134,6 @@ function initMap() {
 /* Create a search box and link it to the UI element.
 var input = document.getElementById('pac-input');
 var searchBox = new google.maps.places.SearchBox(input);
-map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
 // Bias the SearchBox results towards current map's viewport.
 map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
@@ -122,4 +191,5 @@ function dropMarker() {
         });
     });
 }
-dropMarker();*/
+dropMarker();*/map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
