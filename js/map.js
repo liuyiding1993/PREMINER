@@ -43,7 +43,6 @@ function diversifyRegion(){
     // url = 'http://155.69.149.161:8002/region?keyword='+wordList+'&size='+regionSize;
     // result = sendGET(url);
     result = '{"status": "OK","region": {"southwest":{"lat": 1.340105,"lon": 103.679604},"northeast":{"lat": 1.356147,"lon": 103.690042}}}'
-    console.log(result)
     setTimeout(function(){
         // drop(result);
         data = JSON.parse(result);
@@ -52,16 +51,6 @@ function diversifyRegion(){
             south: data.region.southwest.lat,
             east: data.region.northeast.lon,
             west: data.region.southwest.lon
-    url = 'http://155.69.149.161:8002/region?keyword='+wordList+'&size='+regionSize;
-    result = sendGET(url);
-    setTimeout(function(){
-        drop(result);
-        var region = JSON.parse(result);
-        var bounds = {
-            north: region.northeast.lat,
-            south: region.southwest.lat,
-            east: region.northeast.lon,
-            west: region.southwest.lon
         };
         drawRectangle(bounds);
     },5000);
@@ -83,7 +72,7 @@ function aspectInRegion(){
             content: 'Positve aspects:                Negative aspects:\n'+
             '1. '+posAspect[0]+'                       1. '+negAspect[0]+
             '2. '+posAspect[1]+'                       2. '+negAspect[1]+
-            '3. '+posAspect[2]+'                       3. '+negAspect[2]+
+            '3. '+posAspect[2]+'                       3. '+negAspect[2]
         });
         rectangle.addListener('click', function(){
             info.open(map,rectangle);
