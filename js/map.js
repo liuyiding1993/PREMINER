@@ -4,16 +4,27 @@ var rectangle;
 var url;
 var result;
 var regionSize = 100;
+<<<<<<< HEAD
+=======
 var
+>>>>>>> origin/master
 //var success = false;
 //var jqXHR;
 
 // jQuery code for Go button
+<<<<<<< HEAD
+// $(document).ready(function(){
+//     $("#button").click(function(){
+//         diversifyRegion();
+//     });
+// });
+=======
 $(document).ready(function(){
     $("#button").click(function(){
         diversifyRegion();
     });
 });
+>>>>>>> origin/master
 
 // send GET request method
 function sendGET(url){
@@ -35,6 +46,20 @@ function drawRectangle(bounds){
 
 // Diversified Region Query
 function diversifyRegion(){
+<<<<<<< HEAD
+    // url = 'http://155.69.149.161:8002/region?keyword='+wordList+'&size='+regionSize;
+    // result = sendGET(url);
+    result = '{"status": "OK","region": {"southwest":{"lat": 1.340105,"lon": 103.679604},"northeast":{"lat": 1.356147,"lon": 103.690042}}}'
+    console.log(result)
+    setTimeout(function(){
+        // drop(result);
+        data = JSON.parse(result);
+        var bounds = {
+            north: data.region.northeast.lat,
+            south: data.region.southwest.lat,
+            east: data.region.northeast.lon,
+            west: data.region.southwest.lon
+=======
     url = 'http://155.69.149.161:8002/region?keyword='+wordList+'&size='+regionSize;
     result = sendGET(url);
     setTimeout(function(){
@@ -45,6 +70,7 @@ function diversifyRegion(){
             south: region.southwest.lat,
             east: region.northeast.lon,
             west: region.southwest.lon
+>>>>>>> origin/master
         };
         drawRectangle(bounds);
     },5000);
@@ -56,14 +82,24 @@ function aspectInRegion(){
     +bounds.north,bounds.east+'&category=CATEGORYID';
     result = sendGET(url);
     setTimeout(function(){
+<<<<<<< HEAD
+        var data = JSON.parse(result);
+        var posAspect = classifyAspect(data.aspects_pos);
+        var negAspect = classifyAspect(data.aspects_neg);
+=======
         var apspect = JSON.parse(aspect);
         var posAspect = classifyAspect(aspect.aspects_pos);
         var negAspect = classifyAspect(aspect.aspects_neg);
+>>>>>>> origin/master
         var info = new google.maps.InfoWindow({
             content: 'Positve aspects:                Negative aspects:\n'+
             '1. '+posAspect[0]+'                       1. '+negAspect[0]+
             '2. '+posAspect[1]+'                       1. '+negAspect[1]+
+<<<<<<< HEAD
+            '3. '+posAspect[2]+'                       1. '+negAspect[2]
+=======
             '3. '+posAspect[2]+'                       1. '+negAspect[2]+
+>>>>>>> origin/master
         });
         rectangle.addListener('click', function(){
             info.open(map,rectangle);
@@ -136,6 +172,13 @@ function drop(coos) {
             } else {
                 alert(jqXHR.status);
             }
+<<<<<<< HEAD
+        });
+    });
+}
+*/
+=======
         });*/
     });
 }
+>>>>>>> origin/master
