@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="./css/default/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="./css/custom/basic.css" rel="stylesheet" media="screen">
+
+    <link rel="stylesheet" type="text/css" href="css/tools/BootSideMenu/BootSideMenu.css">
+    <link rel="stylesheet" type="text/css" href="css/tools/BootSideMenu/default.css">
+</head>
+<body>
+    <nav id="navigation" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="padding-left: 50px">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">PREMINER</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="col-md-12 map-canvas">
+            <div class="map-container" id="googleMap"></div>
+        </div>
+        <div id="right_panel_container">
+            <div id="news_panel" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <strong>What's New</strong>
+                    </h3>
+                </div>
+                <div id="news_panel_body" class="panel-body">
+                    <ul id="news_list" class="media-list"></ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="left_panel_container">
+            <div id="query_panel" class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <strong>Subscription</strong>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div id="input_group_container" class="col-md-12">
+                        <form id="BRCQueryForm">
+                            <div class="form-group">
+                                <div id="query_input" class="input-group">
+                                    <input id="keywords" name="keywords" type="text" class="form-control" placeholder="keywords? Separate with blank.">
+                                    <span class="input-group-btn">
+                                        <button id="draw_region" class="btn btn-default" type="button" style="">Draw a region</button>
+                                        <button id="subscribe" class="btn btn-success" type="button">Subscribe</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="subscription_panel" class="panel panel-default">
+                <div id="subscription_heading" class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <strong>What you've subscribed</strong>
+                    </h3>
+                </div>
+                <div id="subscription_panel_body" class="panel-body">
+                    <ul id="subscription_list" class="media-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--<script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>-->
+
+    <script src="js/default/jquery-1.11.3.min.js"></script>
+    <script src="js/default/bootstrap.min.js"></script>
+
+    <script src="js/custom/init.js"></script>
+    <script src="js/custom/map.js"></script>
+    <script src="js/custom/panel.js"></script>
+    <script src="js/custom/subscription.js"></script>
+    <script src="js/custom/news.js"></script>
+    <script src="js/custom/query.js"></script>
+
+    <script src="js/tools/BootSideMenu.js"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBdB3HJ5NXO6IUu-4O_iuGfHjpgvqffZt4&callback=initMap">
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+/*overall configurations*/
+html,body{
+    margin:0;
+    height:100%;
+}
+
+.container-fluid,#googleMap{
+    height: 100%;
+    padding: 0;
+}
+
+[class*="col-"]{
+    padding: 0;
+}
+
+.map-canvas{
+    height: 100%;
+}
+
+.map-container{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+}
+
+/*panel configurations*/
+.panel{
+    border: 0;
+    margin-bottom: 0;
+}
+
+.subscribed_poi{
+    width: 50px;
+    height:50px;
+}
+
+.query_warning{
+    margin-top: 20px;
+    height: 20px;
+}
+
+#subscription_list, #news_list{
+    margin: 0;
+    overflow-y: auto;
+}
+
+#left_panel_container{
+    width: 25%;
+}
+
+#right_panel_container{
+    width: 25%;
+}
