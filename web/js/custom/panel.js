@@ -57,10 +57,10 @@ function setup_subscribe_button() {
                 $("#chosen_warning").remove();
             }
 
-            //add_subscription();
+            var keywords = $.trim($("#keywords").val()).replace(/  +/g, ' ');
 
-            var keywords = $.trim($("#keywords").val()).replace(/  +/g, ' ').split(' ');
             var query = {
+                'name': chosen_marker.title,
                 'lat': chosen_marker.position.lat(),
                 'lng': chosen_marker.position.lng(),
                 'radius': null,
